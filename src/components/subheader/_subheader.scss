@@ -1,0 +1,17 @@
+material-subheader {
+  h2 {
+    color: $text-medium;
+    display: block;
+    width: 100%;
+    font-size: $subheader-font-size;
+    font-weight: $subheader-font-weight;
+    line-height: $subheader-line-height;
+    padding: $subheader-padding;
+    margin: $subheader-margin;
+    background-color: white;
+  }
+
+  &.material-subheader-colored h2 {
+    color: $theme-light-blue
+  }
+}

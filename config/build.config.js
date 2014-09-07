@@ -72,6 +72,9 @@ module.exports = {
       'src/components/animate/noEffect.js',
       'src/components/animate/inkCssRipple.js',
 
+      // Sticky Components
+      'src/components/sticky/sticky.js',
+
       // Components
       'src/components/buttons/buttons.js',
       'src/components/card/card.js',
@@ -85,6 +88,7 @@ module.exports = {
       'src/components/sidenav/sidenav.js',
       'src/components/slider/slider.js',
       'src/components/switch/switch.js',
+      'src/components/subheader/subheader.js',
       'src/components/tabs/tabs.js',
       'src/components/tabs/js/*.js',
       'src/components/toast/toast.js',
