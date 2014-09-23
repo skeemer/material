@@ -177,6 +177,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
 
     var content = targetElement().children(0);
     var contentRect = rect(content);
+    var containerRect = rect($container);
     var targetRect = rect(targetElement());
 
     var scrollingDown = false;
@@ -187,25 +188,25 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     }
     $sticky.lastScroll = currentScroll;
 
-    var stickyActive = content.addClass('material-sticky-active');
+    var stickyActive = content.hasClass('material-sticky-active');
 
 
     // If we are scrollingDown, sticky, and are being pushed off screen by a different element, increment
-    if (scrollingDown && stickyActive && contentRect.bottom <= 0 && targetElementIndex < orderedElements.length - 1) {
+    if (scrollingDown && stickyActive && contentRect.bottom <= containerRect.top && targetElementIndex < orderedElements.length - 1) {
       targetElement().children(0).removeClass('material-sticky-active');
       targetElement().css('height', null);
       incrementElement();
       return;
 
     //If we are going up, and our normal position would be rendered not sticky, un-sticky ourselves
-    } else if (!scrollingDown && stickyActive && targetRect.top > 0) {
+    } else if (!scrollingDown && stickyActive && targetRect.top > containerRect.top) {
       targetElement().children(0).removeClass('material-sticky-active');
       targetElement().css('height', null);
       if (targetElementIndex > 0) {
         incrementElement(-1);
         content.addClass('material-sticky-active');
         transformY(content, -contentRect.height);
-        targetElement().css('height', contentRect.height);
+        targetElement().css('height', contentRect.height + 'px');
         return;
       }
       return; // explicit return for the blind
@@ -216,9 +217,9 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
      * sticky and avoid floating off the top for a second
      */
 
-    } else if (scrollingDown && contentRect.top <= 0 && !stickyActive) {
+    } else if (scrollingDown && contentRect.top <= containerRect.top && !stickyActive) {
       content.addClass('material-sticky-active');
-      targetElement().css({height: contentRect.height});
+      targetElement().css('height', contentRect.height + 'px');
       contentRect = rect(content);
       next = targetElement(+1);
       var offset = 0;
@@ -227,8 +228,8 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
         if (rectsAreTouching(contentRect, nextRect)) {
           offset = nextRect.top - contentRect.bottom;
         }
+        transformY(content, Math.min(offset, 0));
       }
-      transformY(content, Math.min(offset, 0));
       return;
     } 
 
@@ -247,7 +248,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
         }
       }
     // Check if we need to pull
-    } else if (targetElementIndex < orderedElements.length - 1 && contentRect.top < 0) {
+    } else if (targetElementIndex < orderedElements.length - 1 && contentRect.top < containerRect.top) {
       nextRect = rect(targetElement(+1).children(0));
       offsetAmount = contentRect.bottom - nextRect.top;
       currentTop = transformY(content);
@@ -285,7 +286,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     if (amnt === undefined) {
       return $el.data('translatedHeight') || 0;
     } else {
-      $el.css($materialEffects.TRANSFORM, 'translate3d(0, ' + amnt + 'px, 0);');
+      $el.css($materialEffects.TRANSFORM, 'translate3d(0, ' + amnt + 'px, 0)');
       $el.data('translatedHeight', amnt);
     }
   }
