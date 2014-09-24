@@ -13,15 +13,16 @@ describe('materialSubheader', function() {
   it('should preserve content', inject(function($compile, $rootScope) {
     var $scope = $rootScope.$new();
     $scope.to = 'world';
-    var $el = $compile('<material-subheader>Hello {{ to }}!</material-subheader>')($scope);
+    var $el = $compile('<div><material-subheader>Hello {{ to }}!</material-subheader></div>')($scope);
     $scope.$digest();
-    expect($el.children(0).html()).toEqual('Hello world!');
+    var $subHeader = $el.children();
+    expect($subHeader.html()).toEqual('Hello world!');
   }));
 
   it('should implement $materialSticky', inject(function($compile, $rootScope) {
-    var $el = $compile(basicHtml)($rootScope);
-    expect($materialStickyMock.args[0]).toBe($rootScope);
-    expect($materialStickyMock.args[1][0]).toBe($el.children(0)[0]);
+    var scope = $rootScope.$new();
+    var $el = $compile(basicHtml)(scope);
+    expect($materialStickyMock.args[0]).toBe(scope);
   }));
 
 });

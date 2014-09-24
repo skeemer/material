@@ -73,7 +73,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     if (browserStickySupport === undefined) {
       browserStickySupport = checkStickySupport($el);
     } else if (browserStickySupport) {
-      $el.css({position: browserStickySupport, top: '0px'});
+      $el.css({position: browserStickySupport, top: '0px', 'z-index': 2});
     }
 
     if (!browserStickySupport) {
@@ -120,9 +120,9 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
 
   function checkStickySupport($el) {
     var stickyProps = ['sticky', '-webkit-sticky'];
-    for(var i = 0; i < stickyProps.length; ++i) {
-      $el.css({position: stickyProps[i], top: '0px'});
-      if ($window.getComputedStyle($el[0]).position == stickyProps[i]) {
+    for (var i = 0; i < stickyProps.length; ++i) {
+      $el.css({position: stickyProps[i], top: 0, 'z-index': 2});
+      if ($el.css('position') == stickyProps[i]) {
         return stickyProps[i];
       }
     }

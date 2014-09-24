@@ -8,6 +8,7 @@ angular.module('material.components.subheader', [
   'material.components.sticky'
 ])
 .directive('materialSubheader', [
+  '$compile',
   materialSubheaderDirective
 ]);
 
@@ -27,14 +28,15 @@ angular.module('material.components.subheader', [
  * </hljs>
  */
 
-function materialSubheaderDirective() {
+function materialSubheaderDirective($compile) {
   return {
     restrict: 'E',
-    compile: function($el, $attr) {
-      var element = angular.element('<h2 material-sticky class="material-subheader">')
+    link: function(scope, $el, $attr) {
+      var element = angular.element('<h2 material-sticky class="material-subheader ' + $attr.class + '">')
           .append($el.contents());
 
-      $el.append(element);
+      $el.replaceWith(element);
+      element = $compile(element)(scope);
     }
   };
 }
