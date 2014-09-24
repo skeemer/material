@@ -31,12 +31,8 @@ angular.module('material.components.subheader', [
 function materialSubheaderDirective($compile) {
   return {
     restrict: 'E',
-    link: function(scope, $el, $attr) {
-      var element = angular.element('<h2 material-sticky class="material-subheader ' + $attr.class + '">')
-          .append($el.contents());
-
-      $el.replaceWith(element);
-      element = $compile(element)(scope);
-    }
+    replace: true,
+    transclude: true,
+    template: '<h2 material-sticky class="material-subheader"><ng-transclude></h2>'
   };
 }

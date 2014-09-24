@@ -1,7 +1,7 @@
 
 angular.module('app', ['ngMaterial'])
 
-.controller('AppCtrl', function($scope) {
+.controller('SubheaderAppCtrl', function($scope) {
     $scope.messages = [
       {
         face : '/img/list/60.jpeg',

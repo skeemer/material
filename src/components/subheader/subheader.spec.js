@@ -16,7 +16,7 @@ describe('materialSubheader', function() {
     var $el = $compile('<div><material-subheader>Hello {{ to }}!</material-subheader></div>')($scope);
     $scope.$digest();
     var $subHeader = $el.children();
-    expect($subHeader.html()).toEqual('Hello world!');
+    expect($subHeader.text()).toEqual('Hello world!');
   }));
 
   it('should implement $materialSticky', inject(function($compile, $rootScope) {
