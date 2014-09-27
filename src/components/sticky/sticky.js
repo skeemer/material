@@ -37,6 +37,11 @@ angular.module('material.components.sticky', [
 function MaterialSticky($window, $document, $$rAF, $materialEffects) {
   var browserStickySupport;
 
+  // Scroll keeping variables to ensure that we continually re-render while we are scrolling
+  var STOP_CHECK_AFTER = 100;
+  var lastScrollAt;
+  var keepChecking = false;
+
   /**
    * Registers an element as sticky, used internally by directives to register themselves
    */
@@ -63,7 +68,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     var $sticky = $container.data('$sticky') || {
       elements: [], // all known sticky elements within $container
       orderedElements: [], // elements, ordered by vertical position in layout
-      check: angular.bind(undefined, checkElements, $container),
+      check: angular.bind(undefined, startChecking, $container),
       targetIndex: 0
     };
 
@@ -161,6 +166,29 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
   }
 
   // Function that executes on scroll to see if we need to do adjustments
+
+  function startChecking($container) {
+    console.log("Scroll");
+    lastScrollAt = Date.now();
+    if (!keepChecking) {
+      console.log("Start");
+      keepChecking = true;
+      scheduleNext($container);
+    }
+  }
+
+  function scheduleNext($container) {
+    if (lastScrollAt.valueOf() >= (Date.now().valueOf() - STOP_CHECK_AFTER)) {
+      $$rAF(function() {
+        checkElements($container);
+      });
+    } else {
+      console.log("Stop!");
+      lastScrollAt = undefined;
+      keepChecking = false;
+    }
+  }
+
   function checkElements($container) {
 
     var $sticky = $container.data('$sticky');
@@ -180,6 +208,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     var targetRect = rect(targetElement());
 
     var next, nextRect; // pointer to next target
+
     if(targetElementIndex < orderedElements.length - 1) {
       next = targetElement(+1).children(0);
       nextRect = rect(next);
@@ -188,6 +217,7 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
     var scrollingDown = false;
     var currentScroll = $container.prop('scrollTop');
     var lastScroll = $sticky.lastScroll;
+    if (currentScroll == lastScroll) return scheduleNext($container);
     if (currentScroll > (lastScroll || 0)) {
       scrollingDown = true;
     }
@@ -246,6 +276,8 @@ function MaterialSticky($window, $document, $$rAF, $materialEffects) {
       translateAmt = transformY(content) + (containerRect.top - contentRect.top);
       transformY(content, translateAmt);
     }
+
+    scheduleNext($container);
 
     function incrementElement(inc) {
       inc = inc || 1;
