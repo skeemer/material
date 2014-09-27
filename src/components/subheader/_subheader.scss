@@ -1,4 +1,6 @@
 h2.material-subheader {
+  position: relative;
+  z-index: 2;
   color: $text-medium;
   display: block;
   width: 100%;

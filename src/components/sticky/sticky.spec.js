@@ -47,6 +47,10 @@ describe('$materialStickySpec', function() {
           originalProp.call($container, prop);
         }
       };
+
+      $container[0].getBoundlingClientRect = function() {
+        return { top: 0 };
+      };
     }
 
     // Overwrite children() to provide mock rect positions
@@ -86,7 +90,7 @@ describe('$materialStickySpec', function() {
     var firstActual = { top: -10, bottom: 9, height: 19 };
     setup({containerScroll: 10, firstActual: firstActual, skipSecond: true});
     $sticky.check();
-    expect($firstSticky.hasClass('material-sticky-active')).toBe(true);
+    expect($firstSticky.data('$stickyActive')).toBe(true);
   });
 
   it('removes class material-sticky-active when an element is no longer sticky', function() {
@@ -95,9 +99,9 @@ describe('$materialStickySpec', function() {
       containerScroll: 10,
       lastScroll: 11
     });
-    $firstSticky.addClass('material-sticky-active');
+    $firstSticky.data('$stickyActive', true);
     $sticky.check();
-    expect($firstSticky.hasClass('material-sticky-active')).toBe(false);
+    expect($firstSticky.data('$stickyActive')).toBe(false);
   });
 
   it('pushes the active element when the next sticky element touches it', function() {
@@ -110,20 +114,22 @@ describe('$materialStickySpec', function() {
       firstTarget: firstTarget,
       secondActual: secondActual
     });
-    $firstSticky.attr('material-sticky-active', true);
+    $firstSticky.data('$stickyActive', true);
     $sticky.check();
     expect($firstSticky.data('translatedHeight')).toBe(-1);
   });
 
   it('increments the active element when it is pushed off screen', function() {
     var firstActual = { top: -9, bottom: 0, height: 10 };
+    var secondActual = { top: 0 };
     setup({
       containerScroll: 10,
-      firstActual: firstActual
+      firstActual: firstActual,
+      secondActual: secondActual
     });
-    $firstSticky.addClass('material-sticky-active');
+    $firstSticky.data('$stickyActive', true);
     $sticky.check();
-    expect($firstSticky.hasClass('material-sticky-active')).toBe(false);
+    expect($firstSticky.data('$stickyActive')).toBe(false);
     expect($sticky.targetIndex).toBe(1);
   });
 
@@ -141,7 +147,7 @@ describe('$materialStickySpec', function() {
     });
     $sticky.targetIndex = 0;
     $firstSticky.data('translatedHeight', -10);
-    $firstSticky.addClass('material-sticky-active');
+    $firstSticky.data('$stickyActive', true);
     $sticky.check();
     expect($firstSticky.data('translatedHeight')).toBe(-9);
   });
