@@ -30,6 +30,7 @@ var uncss = require('gulp-uncss');
 
 var buildConfig = require('./config/build.config');
 var karmaConf = require('./config/karma.conf.js');
+var utils = require('./scripts/gulp-utils.js');
 
 var IS_RELEASE_BUILD = !!argv.release;
 if (IS_RELEASE_BUILD) {
@@ -40,7 +41,7 @@ if (IS_RELEASE_BUILD) {
 }
 
 gulp.task('default', ['build']);
-gulp.task('build', ['scripts', 'sass', 'sass-src']);
+//gulp.task('build', ['scripts', 'sass', 'sass-src']);
 gulp.task('validate', ['jshint', 'karma']);
 
 gulp.task('watch', ['docs'], function() {
@@ -211,4 +212,25 @@ gulp.task('sass-src', function() {
 
 function enquote(str) {
   return '"' + str + '"';
+}
+
+gulp.task('build', function(done) {
+  var module = argv.module || argv.m;
+  if (module) {
+    return buildModule(module, done);
+  } else {
+    return buildProject();
+  }
+});
+
+function buildModule(name, cb) {
+  console.log("Building module %s...", name);
+  utils.pathForModule(name, 'src/{services,components}/**', function(err, path) {
+    console.log(path);
+    cb();
+  });
+}
+
+function buildProject() {
+  console.log("Building project...");
 }
