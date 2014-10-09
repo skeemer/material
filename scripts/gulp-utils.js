@@ -4,6 +4,9 @@ var through2 = require('through2');
 
 var path = require('path');
 
+var getModuleInfo = require('../docs/util/ngModuleData.js');
+
+var noop = function() { };
 
 exports.pathForModule = function(name, paths, cb) {
   generateModulePathMap(paths, function(err, map) {
@@ -23,15 +26,15 @@ function generateModulePathMap(paths, cb) {
   moduleMap = {};
 
   gulp.src(paths)
-  .pipe(filter('**/module.json'))
+  .pipe(filter(['**/*.js', '!demo*/']))
   .pipe(through2.obj(function(file, enc, next) {
-    var modName = require(file.path).module;
+    var modName = getModuleInfo(file.contents).module;
     var modulePath = file.path.split(path.sep).slice(0, -1).join(path.sep);
     moduleMap[modName] = modulePath;
     return next();
-  }).on('data', function() {
-    // placeholder, just so end will trigger
-  }).on('error', function(err) {
+  })
+  .on('data', noop)
+  .on('error', function(err) {
     cb(err, null);
   }).on('end', function() {
     cb(null, moduleMap);

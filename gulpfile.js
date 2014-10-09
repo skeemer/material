@@ -3,6 +3,7 @@ var _ = require('lodash');
 var changelog = require('conventional-changelog');
 var dgeni = require('dgeni');
 var fs = require('fs');
+var path = require('path');
 var glob = require('glob').sync;
 var gulp = require('gulp');
 var karma = require('karma').server;
@@ -214,6 +215,11 @@ function enquote(str) {
   return '"' + str + '"';
 }
 
+
+var config = {
+  scssBasePath: path.join('src', 'core', 'style', 'variables.scss')
+};
+
 gulp.task('build', function(done) {
   var module = argv.module || argv.m;
   if (module) {
@@ -225,10 +231,14 @@ gulp.task('build', function(done) {
 
 function buildModule(name, cb) {
   console.log("Building module %s...", name);
-  utils.pathForModule(name, 'src/{services,components}/**', function(err, path) {
-    console.log(path);
+  utils.pathForModule(name, 'src/{services,components}/**', function(err, modulePath) {
+    console.log(modulePath);
     cb();
   });
+}
+
+function buildModuleStyles(path) {
+  var baseStyles = fs.readFileSync(config.scssBasePath);
 }
 
 function buildProject() {
