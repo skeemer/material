@@ -6,6 +6,7 @@
  * Button
  */
 angular.module('material.components.button', [
+  'material.core',
   'material.animations',
   'material.services.aria'
 ])
@@ -13,6 +14,7 @@ angular.module('material.components.button', [
     'ngHrefDirective',
     '$materialInkRipple',
     '$materialAria',
+    '$materialUtil',
     MaterialButtonDirective
   ]);
 
@@ -46,7 +48,7 @@ angular.module('material.components.button', [
  *  </material-button>
  * </hljs>
  */
-function MaterialButtonDirective(ngHrefDirectives, $materialInkRipple, $materialAria ) {
+function MaterialButtonDirective(ngHrefDirectives, $materialInkRipple, $materialAria, $materialUtil ) {
   var ngHrefDirective = ngHrefDirectives[0];
 
   return {
@@ -67,7 +69,7 @@ function MaterialButtonDirective(ngHrefDirectives, $materialInkRipple, $material
       }
 
       angular.forEach(attributesToCopy, function(name) {
-        var camelCaseName = Util.camelCase(name);
+        var camelCaseName = $materialUtil.camelCase(name);
         if (attr.hasOwnProperty(camelCaseName)) {
           innerElement.attr(name, attr[camelCaseName]);
         }

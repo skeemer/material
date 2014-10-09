@@ -50,7 +50,7 @@ describe('radioButton', function() {
     expect(element.attr('aria-activedescendant')).not.toEqual(rbElements.eq(0).attr('id'));
   }));
 
-  it('should be operable via arrow keys', inject(function($compile, $rootScope) {
+  it('should be operable via arrow keys', inject(function($compile, $rootScope, $materialConstant) {
     var element = $compile('<material-radio-group ng-model="color">' +
                             '<material-radio-button value="blue"></material-radio-button>' +
                             '<material-radio-button value="green"></material-radio-button>' +
@@ -61,7 +61,7 @@ describe('radioButton', function() {
     });
 
     var rbGroupElement = element.eq(0);
-    TestUtil.triggerEvent(rbGroupElement, "keydown", {keyCode: Constant.KEY_CODE.RIGHT_ARROW});
+    TestUtil.triggerEvent(rbGroupElement, "keydown", {keyCode: $materialConstant.KEY_CODE.RIGHT_ARROW});
 
     expect($rootScope.color).toEqual('green');
   }));

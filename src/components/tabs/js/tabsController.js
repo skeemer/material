@@ -3,12 +3,13 @@ angular.module('material.components.tabs')
 .controller('$materialTabs', [
   '$scope', 
   '$element',
+  '$materialUtil',
   MaterialTabsController
 ]);
 
-function MaterialTabsController(scope, element) {
+function MaterialTabsController(scope, element, $materialUtil) {
 
-  var tabsList = Util.iterator([], false);
+  var tabsList = $materialUtil.iterator([], false);
   var self = this;
 
   // Properties

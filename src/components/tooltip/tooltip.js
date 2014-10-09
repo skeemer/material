@@ -2,13 +2,14 @@
  * @ngdoc module
  * @name material.components.tooltip
  */
-angular.module('material.components.tooltip', [])
+angular.module('material.components.tooltip', ['material.core'])
 
 .directive('materialTooltip', [
   '$timeout',
   '$window',
   '$$rAF',
   '$document',
+  '$materialUtil',
   MaterialTooltipDirective
 ]);
 
@@ -35,7 +36,7 @@ angular.module('material.components.tooltip', [])
  * @param {expression=} visible Boolean bound to whether the tooltip is 
  * currently visible.
  */
-function MaterialTooltipDirective($timeout, $window, $$rAF, $document) {
+function MaterialTooltipDirective($timeout, $window, $$rAF, $document, $materialUtil) {
 
   var TOOLTIP_SHOW_DELAY = 400;
   var TOOLTIP_WINDOW_EDGE_SPACE = 8;
@@ -63,7 +64,7 @@ function MaterialTooltipDirective($timeout, $window, $$rAF, $document) {
     // We will re-attach tooltip when visible
     element.detach();
     element.attr('role', 'tooltip');
-    element.attr('id', attr.id || ('tooltip_' + Util.nextUid()));
+    element.attr('id', attr.id || ('tooltip_' + $materialUtil.nextUid()));
 
     parent.on('focus mouseenter touchstart', function() {
       setVisible(true);

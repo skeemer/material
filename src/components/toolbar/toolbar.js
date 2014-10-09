@@ -3,12 +3,14 @@
  * @name material.components.toolbar
  */
 angular.module('material.components.toolbar', [
+  'material.core',
   'material.components.content',
   'material.animations'
 ])
   .directive('materialToolbar', [
     '$$rAF',
     '$materialEffects',
+    '$materialUtil',
     materialToolbarDirective
   ]);
 
@@ -58,7 +60,7 @@ angular.module('material.components.toolbar', [
  * shrinking by. For example, if 0.25 is given then the toolbar will shrink
  * at one fourth the rate at which the user scrolls down. Default 0.5.
  */ 
-function materialToolbarDirective($$rAF, $materialEffects) {
+function materialToolbarDirective($$rAF, $materialEffects, $materialUtil) {
 
   return {
     restrict: 'E',
@@ -81,7 +83,7 @@ function materialToolbarDirective($$rAF, $materialEffects) {
         var contentElement;
 
         var debouncedContentScroll = $$rAF.debounce(onContentScroll);
-        var debouncedUpdateHeight = Util.debounce(updateToolbarHeight, 5 * 1000);
+        var debouncedUpdateHeight = $materialUtil.debounce(updateToolbarHeight, 5 * 1000);
 
         // Wait for $materialContentLoaded event from materialContent directive.
         // If the materialContent element is a sibling of our toolbar, hook it up
@@ -89,7 +91,7 @@ function materialToolbarDirective($$rAF, $materialEffects) {
         scope.$on('$materialContentLoaded', onMaterialContentLoad);
 
         function onMaterialContentLoad($event, newContentEl) {
-          if (Util.elementIsSibling(element, newContentEl)) {
+          if ($materialUtil.elementIsSibling(element, newContentEl)) {
             // unhook old content event listener if exists
             if (contentElement) {
               contentElement.off('scroll', debouncedContentScroll);

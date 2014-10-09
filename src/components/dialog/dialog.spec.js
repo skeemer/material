@@ -34,7 +34,7 @@ describe('$materialDialog', function() {
     expect(container.length).toBe(1);
   }));
 
-  it('should escapeToClose == true', inject(function($materialDialog, $rootScope, $rootElement, $timeout, $materialEffects, $animate) {
+  it('should escapeToClose == true', inject(function($materialDialog, $rootScope, $rootElement, $timeout, $materialEffects, $animate, $materialConstant) {
     var parent = angular.element('<div>');
     $materialDialog.show({
       template: '<material-dialog>',
@@ -47,14 +47,14 @@ describe('$materialDialog', function() {
     expect(parent.find('material-dialog').length).toBe(1);
 
     TestUtil.triggerEvent($rootElement, 'keyup', {
-      keyCode: Constant.KEY_CODE.ESCAPE 
+      keyCode: $materialConstant.KEY_CODE.ESCAPE 
     });
 
     $timeout.flush();
     expect(parent.find('material-dialog').length).toBe(0);
   }));
 
-  it('should escapeToClose == false', inject(function($materialDialog, $rootScope, $rootElement, $timeout, $materialEffects, $animate) {
+  it('should escapeToClose == false', inject(function($materialDialog, $rootScope, $rootElement, $timeout, $materialEffects, $animate, $materialConstant) {
     var parent = angular.element('<div>');
     $materialDialog.show({
       template: '<material-dialog>',
@@ -65,7 +65,7 @@ describe('$materialDialog', function() {
     $rootScope.$apply();
     expect(parent.find('material-dialog').length).toBe(1);
 
-    TestUtil.triggerEvent($rootElement, 'keyup', { keyCode: Constant.KEY_CODE.ESCAPE });
+    TestUtil.triggerEvent($rootElement, 'keyup', { keyCode: $materialConstant.KEY_CODE.ESCAPE });
 
     $timeout.flush();
     $animate.triggerCallbacks();

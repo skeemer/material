@@ -39,7 +39,7 @@ describe('material-slider', function() {
     expect($rootScope.value).toBe(50);
   }));
 
-  it('should increment model on right arrow', inject(function($compile, $rootScope, $timeout) {
+  it('should increment model on right arrow', inject(function($compile, $rootScope, $timeout, $materialConstant) {
     var slider = $compile(
       '<material-slider min="100" max="104" step="2" ng-model="model">'
     )($rootScope);
@@ -47,26 +47,26 @@ describe('material-slider', function() {
     $rootScope.$apply('model = 100');
 
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.RIGHT_ARROW
+      keyCode: $materialConstant.KEY_CODE.RIGHT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(102);
 
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.RIGHT_ARROW
+      keyCode: $materialConstant.KEY_CODE.RIGHT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(104);
 
     // Stays at max
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.RIGHT_ARROW
+      keyCode: $materialConstant.KEY_CODE.RIGHT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(104);
   }));
 
-  it('should decrement model on left arrow', inject(function($compile, $rootScope, $timeout) {
+  it('should decrement model on left arrow', inject(function($compile, $rootScope, $timeout, $materialConstant) {
     var slider = $compile(
       '<material-slider min="100" max="104" step="2" ng-model="model">'
     )($rootScope);
@@ -74,20 +74,20 @@ describe('material-slider', function() {
     $rootScope.$apply('model = 104');
 
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.LEFT_ARROW
+      keyCode: $materialConstant.KEY_CODE.LEFT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(102);
 
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.LEFT_ARROW
+      keyCode: $materialConstant.KEY_CODE.LEFT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(100);
 
     // Stays at min
     TestUtil.triggerEvent(slider, 'keydown', {
-      keyCode: Constant.KEY_CODE.LEFT_ARROW
+      keyCode: $materialConstant.KEY_CODE.LEFT_ARROW
     });
     $timeout.flush();
     expect($rootScope.model).toBe(100);

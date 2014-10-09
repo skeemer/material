@@ -7,6 +7,7 @@
  */
 
 angular.module('material.components.sticky', [
+  'material.core',
   'material.components.content',
   'material.decorators',
   'material.animations'
@@ -16,6 +17,7 @@ angular.module('material.components.sticky', [
   '$materialEffects',
   '$compile',
   '$$rAF',
+  '$materialUtil',
   MaterialSticky
 ]);
 
@@ -35,7 +37,7 @@ angular.module('material.components.sticky', [
  *     If not provided, it will use the result of `element.clone()`.
  */
 
-function MaterialSticky($document, $materialEffects, $compile, $$rAF) {
+function MaterialSticky($document, $materialEffects, $compile, $$rAF, $materialUtil) {
 
   var browserStickySupport = checkStickySupport();
 
@@ -292,11 +294,11 @@ function MaterialSticky($document, $materialEffects, $compile, $$rAF) {
         element.triggerHandler('$scrollstart');
       }
       element.triggerHandler('$scroll');
-      lastScrollTime = +Util.now();
+      lastScrollTime = +$materialUtil.now();
     });
 
     function loopScrollEvent() {
-      if (+Util.now() - lastScrollTime > SCROLL_END_DELAY) {
+      if (+$materialUtil.now() - lastScrollTime > SCROLL_END_DELAY) {
         isScrolling = false;
         element.triggerHandler('$scrollend');
       } else {

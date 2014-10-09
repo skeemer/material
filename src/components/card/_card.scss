@@ -1,6 +1,6 @@
 material-card {
   display: block;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
 
   box-shadow: $card-box-shadow;
   margin: $card-margin;
