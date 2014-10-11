@@ -10,6 +10,7 @@ var karma = require('karma').server;
 var pkg = require('./package.json');
 var exec = require('child_process').exec;
 var writeFile = require('fs').writeFile;
+var Batch = require('batch');
 
 var argv = require('minimist')(process.argv.slice(2));
 
@@ -28,6 +29,8 @@ var uglify = require('gulp-uglify');
 var gutil = require('gulp-util');
 var replace = require('gulp-replace');
 var uncss = require('gulp-uncss');
+var insert = require('gulp-insert');
+var filter = require('gulp-filter');
 
 var buildConfig = require('./config/build.config');
 var karmaConf = require('./config/karma.conf.js');
@@ -220,6 +223,8 @@ var config = {
   scssBasePath: path.join('src', 'core', 'style', 'variables.scss')
 };
 
+var filterDemo = filter(['*', '!demo/*']);
+
 gulp.task('build', function(done) {
   var module = argv.module || argv.m;
   if (module) {
@@ -232,8 +237,11 @@ gulp.task('build', function(done) {
 function buildModule(name, cb) {
   console.log("Building module %s...", name);
   utils.pathForModule(name, 'src/{services,components}/**', function(err, modulePath) {
-    console.log(modulePath);
-    cb();
+    if (err) throw err;
+    var batch = new Batch();
+
+
+    batch.end(cb);
   });
 }
 

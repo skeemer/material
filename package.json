@@ -5,6 +5,7 @@
     "url": "git://github.com/angular/material.git"
   },
   "devDependencies": {
+    "batch": "^0.5.1",
     "canonical-path": "0.0.2",
     "conventional-changelog": "0.0.9",
     "dgeni": "~0.3.0",
@@ -18,6 +19,7 @@
     "gulp-footer": "^1.0.4",
     "gulp-header": "^1.0.2",
     "gulp-if": "^1.2.0",
+    "gulp-insert": "^0.4.0",
     "gulp-jshint": "^1.5.5",
     "gulp-minify-css": "^0.3.4",
     "gulp-ng-html2js": "^0.1.8",
