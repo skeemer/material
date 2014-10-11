@@ -10,7 +10,6 @@ var karma = require('karma').server;
 var pkg = require('./package.json');
 var exec = require('child_process').exec;
 var writeFile = require('fs').writeFile;
-var Batch = require('batch');
 
 var argv = require('minimist')(process.argv.slice(2));
 
@@ -31,6 +30,9 @@ var replace = require('gulp-replace');
 var uncss = require('gulp-uncss');
 var insert = require('gulp-insert');
 var filter = require('gulp-filter');
+var autoprefixer = require('gulp-autoprefixer');
+
+var lazypipe = require('lazypipe');
 
 var buildConfig = require('./config/build.config');
 var karmaConf = require('./config/karma.conf.js');
@@ -220,35 +222,58 @@ function enquote(str) {
 
 
 var config = {
+  banner:
+    '/*!\n' +
+    ' * Angular Material Design\n' +
+    ' * https://github.com/angular/material\n' +
+    ' * @license MIT\n' +
+    ' * v' + pkg.version + '\n' + 
+    ' */\n',
   scssBasePath: path.join('src', 'core', 'style', 'variables.scss')
 };
 
-var filterDemo = filter(['*', '!demo/*']);
 
-gulp.task('build', function(done) {
-  var module = argv.module || argv.m;
-  if (module) {
-    return buildModule(module, done);
-  } else {
-    return buildProject();
-  }
+var debug = require('gulp-debug');
+
+gulp.task('build-module', function() {
+  var mod = argv.module || argv.m;
+  var name = mod.split('.').splice(-1)[0];
+
+  gutil.log("Building module " + mod + '...');
+  return utils.filesForModule(mod)
+    .pipe(filterNonCodeFiles())
+    .pipe(gulpif('*.scss', buildModuleStyles(name)))
+    .pipe(gulpif('*.js', buildModuleJs(name)))
+    .pipe(insert.prepend(config.banner))
+    .pipe(utils.buildModuleBower(name, pkg.version))
+    .pipe(gulp.dest('dist/' + name));
 });
 
-function buildModule(name, cb) {
-  console.log("Building module %s...", name);
-  utils.pathForModule(name, 'src/{services,components}/**', function(err, modulePath) {
-    if (err) throw err;
-    var batch = new Batch();
-
-
-    batch.end(cb);
-  });
+function filterNonCodeFiles() {
+  return filter(['*', '!demo**', '!README*', '!module.json', '!*.spec.js']);
 }
 
-function buildModuleStyles(path) {
-  var baseStyles = fs.readFileSync(config.scssBasePath);
+function buildModuleStyles(name) {
+  var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
+  return lazypipe()
+  .pipe(insert.prepend.bind(null, baseStyles))
+  .pipe(gulpif.bind(undefined, /theme.scss/, 
+      rename(name + '-default-theme.scss'), concat(name + '-core.scss')
+  )).pipe(sass)
+  .pipe(autoprefix)
+  (); // invoke the returning fn to create our pipe
 }
 
-function buildProject() {
-  console.log("Building project...");
+function buildModuleJs(name) {
+  return lazypipe()
+  .pipe(insert.wrap.bind(undefined, '(function() {', '})()'))
+  .pipe(concat.bind(undefined, name + '.js'))
+  ();
+}
+
+function autoprefix() {
+  return autoprefixer([
+    'Chrome Android', 'iOS', 'last 2 Safari versions',
+    'last 2 Chrome versions'
+  ]);
 }
