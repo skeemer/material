@@ -229,11 +229,33 @@ var config = {
     ' * @license MIT\n' +
     ' * v' + pkg.version + '\n' + 
     ' */\n',
-  scssBasePath: path.join('src', 'core', 'style', 'variables.scss')
+  scssBasePath: path.join('src', 'core', 'style', 'variables.scss'),
+  paths: 'src/{components,services}/**'
 };
 
 
 var debug = require('gulp-debug');
+
+/**
+ * Project wide build related tasks
+ */
+
+gulp.task('build', ['generate-default-theme'], function() {
+  gutil.log("Building material-design...");
+});
+
+gulp.task('generate-default-theme', function() {
+  var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
+  return gulp.src(path.join(config.paths, '*-theme.scss'))
+    .pipe(concat('default-theme.scss'))
+    .pipe(insert.prepend(baseStyles))
+    .pipe(utils.hoistScssVariables())
+    .pipe(gulp.dest('themes/'));
+});
+
+/**
+ * Module specific build tasks
+ */
 
 gulp.task('build-module', function() {
   var mod = argv.module || argv.m;

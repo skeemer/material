@@ -64,3 +64,10 @@ exports.buildModuleBower = function(name, version) {
     next();
   });
 };
+
+exports.hoistScssVariables = function() {
+  gutil.log('TODO: Hoist scss variables');
+  return through2.obj(function(file, enc, next) {
+    next();
+  });
+};
