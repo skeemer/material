@@ -245,13 +245,10 @@ gulp.task('build-module', function() {
     .pipe(gulpif('*.scss', buildModuleStyles(name)))
     .pipe(gulpif('*.js', buildModuleJs(name)))
     .pipe(insert.prepend(config.banner))
-    .pipe(utils.buildModuleBower(name, pkg.version))
+    .pipe(gulpif(IS_RELEASE_BUILD, utils.buildModuleBower(name, pkg.version)))
     .pipe(gulp.dest('dist/' + name));
 });
 
-function filterNonCodeFiles() {
-  return filter(['*', '!demo**', '!README*', '!module.json', '!*.spec.js']);
-}
 
 function buildModuleStyles(name) {
   var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
@@ -261,6 +258,7 @@ function buildModuleStyles(name) {
       rename(name + '-default-theme.scss'), concat(name + '-core.scss')
   )).pipe(sass)
   .pipe(autoprefix)
+  .pipe(gulpif.bind(undefined, IS_RELEASE_BUILD, minifyCss()))
   (); // invoke the returning fn to create our pipe
 }
 
@@ -268,7 +266,17 @@ function buildModuleJs(name) {
   return lazypipe()
   .pipe(insert.wrap.bind(undefined, '(function() {', '})()'))
   .pipe(concat.bind(undefined, name + '.js'))
+  .pipe(gulpif.bind(undefined, IS_RELEASE_BUILD, uglify({preserveComments: 'some'})))
   ();
+}
+
+
+/**
+ * Preconfigured gulp plugin invocations
+ */
+
+function filterNonCodeFiles() {
+  return filter(['*', '!demo**', '!README*', '!module.json', '!*.spec.js']);
 }
 
 function autoprefix() {
