@@ -102,7 +102,6 @@ var config = {
 };
 
 
-var debug = require('gulp-debug');
 
 /**
  * Project wide build related tasks
@@ -137,7 +136,6 @@ gulp.task('build-scss', function() {
   gutil.log("Building css files...");
   return gulp.src(scssGlob)
     .pipe(filter(['**components/toast/**', '!**/*-theme.scss'])) // remove once ported
-    .pipe(debug())
     .pipe(concat('angular-material.scss'))
     .pipe(insert.prepend(baseStyles))
     .pipe(sass())
