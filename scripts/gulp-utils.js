@@ -66,8 +66,21 @@ exports.buildModuleBower = function(name, version) {
 };
 
 exports.hoistScssVariables = function() {
-  gutil.log('TODO: Hoist scss variables');
   return through2.obj(function(file, enc, next) {
+    var contents = file.contents.toString().split('\n');
+    var lastVariableLine = -1;
+
+    for( var currentLine = 0; currentLine < contents.length; ++currentLine) {
+      var line = contents[currentLine];
+      if (/^\$/.test(line)) {
+        if (currentLine != lastVariableLine + 1) {
+          var variable = contents.splice(currentLine, 1)[0];
+          contents.splice(++lastVariableLine, 0, variable);
+        }
+      }
+    }
+    file.contents = new Buffer(contents.join('\n'));
+    this.push(file);
     next();
   });
 };
