@@ -37,7 +37,7 @@ material-checkbox {
 
   // unchecked
   .material-icon {
-    @include transition(240ms);
+    transition: 240ms;
     position: absolute;
     top: 0;
     left: 0;
@@ -71,7 +71,7 @@ material-checkbox {
   }
 
   &.material-checked .material-icon:after {
-    @include transform-rotate(45deg);
+    transform: rotate(45deg);
     position: absolute;
     left: 4px;
     display: table;

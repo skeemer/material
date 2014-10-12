@@ -96,7 +96,7 @@ var config = {
     ' * @license MIT\n' +
     ' * v' + pkg.version + '\n' + 
     ' */\n',
-  scssBasePath: path.join('src', 'core', 'style', 'variables.scss'),
+  scssBaseFiles: 'src/core/style/{variables,mixins}.scss',
   paths: 'src/{components,services}/**',
   outputDir: 'dist/'
 };
@@ -112,10 +112,8 @@ gulp.task('build', ['build-theme', 'build-scss', 'build-js'], function() {
 });
 
 gulp.task('generate-default-theme', function() {
-  var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
-  return gulp.src(path.join(config.paths, '*-theme.scss'))
+  return gulp.src([config.scssBaseFiles, path.join(config.paths, '*-theme.scss')])
     .pipe(concat('default-theme.scss'))
-    .pipe(insert.prepend(baseStyles))
     .pipe(utils.hoistScssVariables())
     .pipe(gulp.dest('themes/'));
 });
@@ -131,13 +129,11 @@ gulp.task('build-theme', ['generate-default-theme'], function() {
 });
 
 gulp.task('build-scss', function() {
-  var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
   var scssGlob = path.join(config.paths, '*.scss');
   gutil.log("Building css files...");
-  return gulp.src(scssGlob)
-    .pipe(filter(['**components/toast/**', '!**/*-theme.scss'])) // remove once ported
+  return gulp.src([config.scssBaseFiles, scssGlob])
+    .pipe(filter(['**', '!**/*-theme.scss'])) // remove once ported
     .pipe(concat('angular-material.scss'))
-    .pipe(insert.prepend(baseStyles))
     .pipe(sass())
     .pipe(autoprefix())
     .pipe(gulpif(IS_RELEASE_BUILD, minifyCss()))

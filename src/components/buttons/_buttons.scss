@@ -13,7 +13,7 @@
 
 material-button {
 
-  @include user-select(none);
+  user-select: none;
   position: relative; //for child absolute-positioned <canvas>
   display: inline-block;
 
@@ -102,11 +102,9 @@ material-button {
   &.material-button-raised {
     background-color: $button-raised-background;
 
-    -webkit-transition: 0.2s linear;
-    -webkit-transition-property: box-shadow, -webkit-transform, background-color;
-    transition: 0.2s linear transform;
+    transition: 0.2s linear;
     transition-property: box-shadow, transform, background-color;
-    @include transform-translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 
     &:not([disabled]) {
       @extend .material-shadow-bottom-z-1;
@@ -145,10 +143,9 @@ material-button {
     border-radius: 50%;
     overflow: hidden;
 
-    @include transform-translate3d(0,0,0);
-    -webkit-transition: 0.2s linear;
-    -webkit-transition-property: -webkit-transform, box-shadow;
-    transition: transform 0.2s linear;
+    transform: translate3d(0,0,0);
+
+    transition: 0.2s linear;
     transition-property: transform, box-shadow;
 
   }
@@ -158,7 +155,7 @@ material-button {
     &.material-button-fab {
       &.focus,
       &:hover {
-        @include transform-translate3d(0, -1px, 0);
+        transform: translate3d(0, -1px, 0);
         @extend .material-shadow-bottom-z-2;
       }
     }
@@ -168,32 +165,32 @@ material-button {
 .material-toast-open-top {
   material-button.material-button-fab-top-left,
   material-button.material-button-fab-top-right {
-    @include transform-translate3d(0, $button-fab-toast-offset, 0);
+    transform: translate3d(0, $button-fab-toast-offset, 0);
     &.focus,
     &:hover:not([disabled]) {
-      @include transform-translate3d(0, $button-fab-toast-offset - 1, 0);
+      transform: translate3d(0, $button-fab-toast-offset - 1, 0);
     }
   }
 }
 .material-toast-open-bottom {
   material-button.material-button-fab-bottom-left,
   material-button.material-button-fab-bottom-right {
-    @include transform-translate3d(0, -$button-fab-toast-offset, 0);
+    transform: translate3d(0, -$button-fab-toast-offset, 0);
     &.focus,
     &:hover {
-      @include transform-translate3d(0, -$button-fab-toast-offset - 1, 0);
+      transform: translate3d(0, -$button-fab-toast-offset - 1, 0);
     }
   }
 }
 
 
 .material-button-group {
-  @include flex-display();
-  @include flex(1);
+  display: flex;
+  flex: 1;
   width: 100%;
 }
 .material-button-group > .material-button {
-  @include flex(1);
+  flex: 1;
 
   display: block;
 
