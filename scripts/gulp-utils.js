@@ -35,6 +35,34 @@ exports.filesForModule = function(name) {
   }
 };
 
+exports.buildNgMaterialDefinition = function() {
+  var buffer = [];
+  var modulesSeen = [];
+  return through2.obj(function(file, enc, next) {
+    var moduleName;
+    if (moduleName = getModuleInfo(file.contents).module) {
+      modulesSeen.push(moduleName);
+    }
+    buffer.push(file);
+    next();
+  }, function(done) {
+    var EXPLICIT_DEPS = ['ng', 'ngAnimate'];
+    var angularFileContents = "angular.module('ngMaterial', " + JSON.stringify(EXPLICIT_DEPS.concat(modulesSeen)) + ');';
+    var angularFile = new gutil.File({
+      base: process.cwd(),
+      path: process.cwd() + '/ngMaterial.js',
+      contents: new Buffer(angularFileContents)
+    });
+    this.push(angularFile);
+    var self = this;
+    buffer.forEach(function(file) {
+      self.push(file);
+    });
+    buffer = [];
+    done();
+  });
+};
+
 exports.buildModuleBower = function(name, version) {
   return through2.obj(function(file, enc, next) {
     this.push(file);

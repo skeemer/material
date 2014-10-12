@@ -1,7 +1,7 @@
 describe('iterator', function() {
+  beforeEach(module('material.core'));
 
   describe('use to provide accessor API ', function () {
-    beforeEach(module('material.core'));
 
     var list, iter;
 

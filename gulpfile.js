@@ -96,6 +96,7 @@ var config = {
     ' * @license MIT\n' +
     ' * v' + pkg.version + '\n' + 
     ' */\n',
+  jsBaseFiles: ['src/core/core.js', 'src/core/util/*.js'],
   scssBaseFiles: 'src/core/style/{variables,mixins}.scss',
   paths: 'src/{components,services}/**',
   outputDir: 'dist/'
@@ -132,6 +133,7 @@ gulp.task('build-scss', function() {
   var scssGlob = path.join(config.paths, '*.scss');
   gutil.log("Building css files...");
   return gulp.src([config.scssBaseFiles, scssGlob])
+    .pipe(filterNonCodeFiles())
     .pipe(filter(['**', '!**/*-theme.scss'])) // remove once ported
     .pipe(concat('angular-material.scss'))
     .pipe(sass())
@@ -144,7 +146,10 @@ gulp.task('build-scss', function() {
 gulp.task('build-js', function() {
   var jsGlob = path.join(config.paths, '*.js');
   gutil.log("Building js files...");
-  return gulp.src(jsGlob)
+  return gulp.src(config.jsBaseFiles.concat([jsGlob]))
+    .pipe(filterNonCodeFiles())
+    .pipe(utils.buildNgMaterialDefinition())
+    .pipe(require('gulp-debug')())
     .pipe(insert.wrap('(function() {', '})()'))
     .pipe(concat('angular-material.js'))
     .pipe(gulpif(IS_RELEASE_BUILD, uglify()))
@@ -197,7 +202,13 @@ function buildModuleJs(name) {
  */
 
 function filterNonCodeFiles() {
-  return filter(['*', '!demo**', '!README*', '!module.json', '!*.spec.js']);
+  return filter(function(file) {
+    if (/demo/.test(file.path)) return false;
+    if (/README/.test(file.path)) return false;
+    if (/module\.json/.test(file.path)) return false;
+    if (/\.spec\.js/.test(file.path)) return false;
+    return true;
+  });
 }
 
 function autoprefix() {

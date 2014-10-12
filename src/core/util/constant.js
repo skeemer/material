@@ -1,5 +1,5 @@
 angular.module('material.core')
-.const('$materialConstant', {
+.constant('$materialConstant', {
   KEY_CODE: {
     ENTER: 13,
     ESCAPE: 27,
