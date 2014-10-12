@@ -3,12 +3,12 @@
 // ------------------------------
 
 [layout] {
-  @include box-sizing(border-box);
-  @include flex-display();
+  box-sizing: border-box;
+  display: flex;
 }
 
 [layout=vertical] {
-  @include flex-direction(column);
+  flex-direction: column;
 }
 
 [layout-padding],
@@ -38,7 +38,7 @@
 [layout-align="center center"],
 [layout-align="center start"],
 [layout-align="center end"] {
-  @include flex-justify-content(center);
+  justify-content: center;
 }
 
 // Main Axis End
@@ -46,7 +46,7 @@
 [layout-align="end center"],
 [layout-align="end start"],
 [layout-align="end end"] {
-  @include flex-justify-content(flex-end);
+  justify-content: flex-end;
 }
 
 // Main Axis Space Around
@@ -54,7 +54,7 @@
 [layout-align="space-around center"],
 [layout-align="space-around start"],
 [layout-align="space-around end"] {
-  @include flex-justify-content(space-around);
+  justify-content: space-around;
 }
 
 // Main Axis Space Between
@@ -62,7 +62,7 @@
 [layout-align="space-between center"],
 [layout-align="space-between start"],
 [layout-align="space-between end"] {
-  @include flex-justify-content(space-between);
+  justify-content: space-between;
 }
 
 
@@ -77,7 +77,7 @@
 [layout-align="end center"],
 [layout-align="space-between center"],
 [layout-align="space-around center"] {
-  @include flex-align-items(center);
+  align-items: center;
 }
 
 // Cross Axis Start
@@ -86,7 +86,7 @@
 [layout-align="end start"],
 [layout-align="space-between start"],
 [layout-align="space-around start"] {
-  @include flex-align-items(flex-start);
+  align-items: flex-start;
 }
 
 // Cross Axis End
@@ -95,7 +95,7 @@
 [layout-align="end end"],
 [layout-align="space-between end"],
 [layout-align="space-around end"] {
-  @include flex-align-items(flex-end);
+  align-items: flex-end;
 }
 
 
@@ -121,7 +121,7 @@
 
 @mixin layout-presets($attr) {
   [#{$attr}] {
-    @include flex(1);
+    flex: 1;
   }
   // (1-19) * 5 = 5-95%
   @for $i from 1 through 19 {
@@ -138,7 +138,7 @@
 }
 
 @mixin layout-preset($value) {
-  @include flex(0, 0, $value);
+  flex: 0, 0, $value;
   max-width: $value;
 }
 
@@ -159,7 +159,7 @@
 
 @mixin layout-order-preset($attr, $n) {
   [#{$attr}="#{$n}"] {
-    @include flex-order($n);
+    flex-order: $n;
   }
 }
 
@@ -176,10 +176,10 @@
     @include layout-offset-presets( offset-#{$suffix} );
     @include layout-order-presets( layout-order-#{$suffix} );
     [layout-#{$suffix}] {
-      @include flex-direction(row);
+      flex-direction: row;
     }
     [layout-#{$suffix}=vertical] {
-      @include flex-direction(column);
+      flex-direction: column;
     }
 
     [block-#{$suffix}] {

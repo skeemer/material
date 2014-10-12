@@ -97,7 +97,7 @@ var config = {
     ' * v' + pkg.version + '\n' + 
     ' */\n',
   jsBaseFiles: ['src/core/core.js', 'src/core/util/*.js'],
-  scssBaseFiles: 'src/core/style/{variables,mixins}.scss',
+  scssBaseFiles: 'src/core/style/{variables,mixins,structure,layout,table}.scss',
   paths: 'src/{components,services}/**',
   outputDir: 'dist/'
 };
@@ -149,7 +149,6 @@ gulp.task('build-js', function() {
   return gulp.src(config.jsBaseFiles.concat([jsGlob]))
     .pipe(filterNonCodeFiles())
     .pipe(utils.buildNgMaterialDefinition())
-    .pipe(require('gulp-debug')())
     .pipe(insert.wrap('(function() {', '})()'))
     .pipe(concat('angular-material.js'))
     .pipe(gulpif(IS_RELEASE_BUILD, uglify()))
