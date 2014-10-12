@@ -7,14 +7,15 @@ angular.module('material.components.tabs')
   '$compile',
   '$animate',
   '$materialSwipe',
+  '$materialUtil',
   TabItemController
 ]);
 
-function TabItemController(scope, element, $compile, $animate, $materialSwipe) {
+function TabItemController(scope, element, $compile, $animate, $materialSwipe, $materialUtil) {
   var self = this;
 
   var detachSwipe = angular.noop;
-  var attachSwipe = function() { return detachSwipe };
+  var attachSwipe = function() { return detachSwipe; };
   var eventTypes = "swipeleft swiperight" ;
   var configureSwipe = $materialSwipe( scope, eventTypes );
 
@@ -50,7 +51,7 @@ function TabItemController(scope, element, $compile, $animate, $materialSwipe) {
 
       $compile(self.contentContainer)(self.contentScope);
 
-      Util.disconnectScope(self.contentScope);
+      $materialUtil.disconnectScope(self.contentScope);
 
       // For internal tab views we only use the `$materialSwipe`
       // so we can easily attach()/detach() when the tab view is active/inactive
@@ -76,7 +77,7 @@ function TabItemController(scope, element, $compile, $animate, $materialSwipe) {
 
   function onSelect() {
     // Resume watchers and events firing when tab is selected
-    Util.reconnectScope(self.contentScope);
+    $materialUtil.reconnectScope(self.contentScope);
     detachSwipe = attachSwipe();
 
     element.addClass('active');
@@ -89,7 +90,7 @@ function TabItemController(scope, element, $compile, $animate, $materialSwipe) {
 
   function onDeselect() {
     // Stop watchers & events from firing while tab is deselected
-    Util.disconnectScope(self.contentScope);
+    $materialUtil.disconnectScope(self.contentScope);
     detachSwipe();
 
     element.removeClass('active');

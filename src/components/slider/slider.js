@@ -3,6 +3,7 @@
  * @name material.components.slider
  */
 angular.module('material.components.slider', [
+  'material.core',
   'material.animations',
   'material.services.aria'
 ])
@@ -56,6 +57,7 @@ function SliderDirective() {
       '$window',
       '$materialEffects',
       '$materialAria',
+      '$materialUtil',
       SliderController
     ],
     template:
@@ -98,7 +100,7 @@ function SliderDirective() {
  * We use a controller for all the logic so that we can expose a few
  * things to unit tests
  */
-function SliderController(scope, element, attr, $$rAF, $window, $materialEffects, $materialAria) {
+function SliderController(scope, element, attr, $$rAF, $window, $materialEffects, $materialAria, $materialUtil) {
 
   this.init = function init(ngModelCtrl) {
     var thumb = angular.element(element[0].querySelector('.slider-thumb'));
@@ -209,7 +211,7 @@ function SliderController(scope, element, attr, $$rAF, $window, $materialEffects
      * Refreshing Dimensions
      */
     var sliderDimensions = {};
-    var throttledRefreshDimensions = Util.throttle(refreshSliderDimensions, 5000);
+    var throttledRefreshDimensions = $materialUtil.throttle(refreshSliderDimensions, 5000);
     refreshSliderDimensions();
     function refreshSliderDimensions() {
       sliderDimensions = trackContainer[0].getBoundingClientRect();

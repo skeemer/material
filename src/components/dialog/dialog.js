@@ -3,6 +3,7 @@
  * @name material.components.dialog
  */
 angular.module('material.components.dialog', [
+  'material.core',
   'material.animations',
   'material.services.compiler',
   'material.services.aria',
@@ -19,6 +20,7 @@ angular.module('material.components.dialog', [
     '$animate',
     '$materialAria',
     '$$interimElement',
+    '$materialUtil',
     MaterialDialogService
   ]);
 
@@ -141,7 +143,7 @@ function MaterialDialogDirective($$rAF) {
  *
  */
 
-function MaterialDialogService($timeout, $rootElement, $materialEffects, $animate, $materialAria, $$interimElement) {
+function MaterialDialogService($timeout, $rootElement, $materialEffects, $animate, $materialAria, $$interimElement, $materialUtil) {
 
   var $dialogService;
   return $dialogService = $$interimElement({
@@ -246,7 +248,7 @@ function MaterialDialogService($timeout, $rootElement, $materialEffects, $animat
     if (dialogContent.length === 0){
       dialogContent = element;
     }
-    var defaultText = Util.stringFromTextBody(dialogContent.text(), 3);
+    var defaultText = $materialUtil.stringFromTextBody(dialogContent.text(), 3);
     $materialAria.expect(element, 'aria-label', defaultText);
   }
 }

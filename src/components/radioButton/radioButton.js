@@ -5,14 +5,17 @@
  * @description radioButton module!
  */
 angular.module('material.components.radioButton', [
+  'material.core',
   'material.animations',
   'material.services.aria'
 ])
   .directive('materialRadioGroup', [
+    '$materialUtil',
     materialRadioGroupDirective
   ])
   .directive('materialRadioButton', [
     '$materialAria',
+    '$materialUtil',
     materialRadioButtonDirective
   ]);
 
@@ -48,7 +51,7 @@ angular.module('material.components.radioButton', [
  * </hljs>
  *
  */
-function materialRadioGroupDirective() {
+function materialRadioGroupDirective($materialUtil) {
   RadioGroupController.prototype = createRadioGroupControllerProto();
 
   return {
@@ -134,7 +137,7 @@ function materialRadioGroupDirective() {
    */
   function changeSelectedButton(parent, increment) {
     // Coerce all child radio buttons into an array, then wrap then in an iterator
-    var buttons = Util.iterator(
+    var buttons = $materialUtil.iterator(
       Array.prototype.slice.call(parent[0].querySelectorAll('material-radio-button')),
       true
     );
@@ -188,7 +191,7 @@ function materialRadioGroupDirective() {
  * </hljs>
  *
  */
-function materialRadioButtonDirective($materialAria) {
+function materialRadioButtonDirective($materialAria, $materialUtil) {
 
   var CHECKED_CSS = 'material-checked';
 
@@ -260,7 +263,7 @@ function materialRadioButtonDirective($materialAria) {
        * @returns {*|string}
        */
       function buildAriaID() {
-        return attr.id || ( 'radio' + "_" + Util.nextUid() );
+        return attr.id || ( 'radio' + "_" + $materialUtil.nextUid() );
       }
     }
   }

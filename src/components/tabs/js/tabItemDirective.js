@@ -4,6 +4,7 @@ angular.module('material.components.tabs')
   '$materialInkRipple', 
   '$compile',
   '$materialAria',
+  '$materialUtil',
   MaterialTabDirective
 ]);
 
@@ -57,7 +58,7 @@ angular.module('material.components.tabs')
  * </hljs>
  *
  */
-function MaterialTabDirective($materialInkRipple, $compile, $materialAria) {
+function MaterialTabDirective($materialInkRipple, $compile, $materialAria, $materialUtil) {
   return {
     restrict: 'E',
     require: ['materialTab', '^materialTabs'],
@@ -186,7 +187,7 @@ function MaterialTabDirective($materialInkRipple, $compile, $materialAria) {
 
       function configureAria() {
         // Link together the content area and tabItemCtrl with an id
-        var tabId = attr.id || Util.nextUid();
+        var tabId = attr.id || $materialUtil.nextUid();
         var tabContentId = 'content_' + tabId;
         element.attr({
           id: tabId,

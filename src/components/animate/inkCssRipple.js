@@ -11,6 +11,7 @@ angular.module('material.animations')
   '$$rAF',
   '$materialEffects',
   '$timeout',
+  '$materialUtil',
   InkRippleService
 ]);
 
@@ -24,7 +25,7 @@ function InkRippleDirective($materialInkRipple) {
   };
 }
 
-function InkRippleService($window, $$rAF, $materialEffects, $timeout) {
+function InkRippleService($window, $$rAF, $materialEffects, $timeout, $materialUtil) {
 
   // TODO fix this. doesn't support touch AND click devices (eg chrome pixel)
   var hasTouch = !!('ontouchend' in document);
@@ -94,7 +95,7 @@ function InkRippleService($window, $$rAF, $materialEffects, $timeout) {
     }
 
     function rippleIsAllowed() {
-      return !Util.isParentDisabled(element);
+      return !$materialUtil.isParentDisabled(element);
     }
 
     function createRipple(left, top, positionsAreAbsolute) {

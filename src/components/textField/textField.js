@@ -4,11 +4,12 @@
  * @description
  * Form
  */
-angular.module('material.components.textField', [])
+angular.module('material.components.textField', ['material.core'])
   .directive('materialInputGroup', [
     materialInputGroupDirective
   ])
   .directive('materialInput', [
+    '$materialUtil',
     materialInputDirective
   ]);
 
@@ -60,7 +61,7 @@ function materialInputGroupDirective() {
  * </material-input-group>
  * </hljs>
  */
-function materialInputDirective() {
+function materialInputDirective($materialUtil) {
   return {
     restrict: 'E',
     replace: true,
@@ -74,7 +75,7 @@ function materialInputDirective() {
       }
 
       // scan for disabled and transpose the `type` value to the <input> element
-      var isDisabled = Util.isParentDisabled(element);
+      var isDisabled = $materialUtil.isParentDisabled(element);
 
       element.attr('tabindex', isDisabled ? -1 : 0 );
       element.attr('type', attr.type || element.parent().attr('type') || "text" );
