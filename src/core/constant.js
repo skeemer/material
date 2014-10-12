@@ -1,4 +1,5 @@
-var Constant = {
+angular.module('material.core')
+.const('$materialConstant', {
   KEY_CODE: {
     ENTER: 13,
     ESCAPE: 27,
@@ -8,4 +9,4 @@ var Constant = {
     RIGHT_ARROW : 39,
     DOWN_ARROW : 40
   }
-};
+});

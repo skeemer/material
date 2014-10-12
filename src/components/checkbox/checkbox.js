@@ -4,6 +4,7 @@
  * @description Checkbox module!
  */
 angular.module('material.components.checkbox', [
+  'material.core',
   'material.animations',
   'material.services.aria'
 ])
@@ -11,6 +12,7 @@ angular.module('material.components.checkbox', [
     'inputDirective',
     '$materialInkRipple',
     '$materialAria',
+    '$materialConstant',
     MaterialCheckboxDirective
   ]);
 
@@ -49,7 +51,7 @@ angular.module('material.components.checkbox', [
  * </hljs>
  *
  */
-function MaterialCheckboxDirective(inputDirectives, $materialInkRipple, $materialAria) {
+function MaterialCheckboxDirective(inputDirectives, $materialInkRipple, $materialAria, $materialConstant) {
   var inputDirective = inputDirectives[0];
 
   var CHECKED_CSS = 'material-checked';
@@ -103,7 +105,7 @@ function MaterialCheckboxDirective(inputDirectives, $materialInkRipple, $materia
       ngModelCtrl.$render = render;
 
       function keypressHandler(ev) {
-        if(ev.which === Constant.KEY_CODE.SPACE) {
+        if(ev.which === $materialConstant.KEY_CODE.SPACE) {
           ev.preventDefault();
           listener(ev);
         }
@@ -127,7 +129,7 @@ function MaterialCheckboxDirective(inputDirectives, $materialInkRipple, $materia
           element.removeClass(CHECKED_CSS);
         }
       }
-    }
+    };
   }
 }
 

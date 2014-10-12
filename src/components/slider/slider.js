@@ -58,6 +58,7 @@ function SliderDirective() {
       '$materialEffects',
       '$materialAria',
       '$materialUtil',
+      '$materialConstant',
       SliderController
     ],
     template:
@@ -100,7 +101,7 @@ function SliderDirective() {
  * We use a controller for all the logic so that we can expose a few
  * things to unit tests
  */
-function SliderController(scope, element, attr, $$rAF, $window, $materialEffects, $materialAria, $materialUtil) {
+function SliderController(scope, element, attr, $$rAF, $window, $materialEffects, $materialAria, $materialUtil, $materialConstant) {
 
   this.init = function init(ngModelCtrl) {
     var thumb = angular.element(element[0].querySelector('.slider-thumb'));
@@ -226,9 +227,9 @@ function SliderController(scope, element, attr, $$rAF, $window, $materialEffects
      */
     function keydownListener(ev) {
       var changeAmount;
-      if (ev.which === Constant.KEY_CODE.LEFT_ARROW) {
+      if (ev.which === $materialConstant.KEY_CODE.LEFT_ARROW) {
         changeAmount = -step;
-      } else if (ev.which === Constant.KEY_CODE.RIGHT_ARROW) {
+      } else if (ev.which === $materialConstant.KEY_CODE.RIGHT_ARROW) {
         changeAmount = step;
       }
       if (changeAmount) {

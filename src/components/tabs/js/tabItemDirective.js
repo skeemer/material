@@ -5,6 +5,7 @@ angular.module('material.components.tabs')
   '$compile',
   '$materialAria',
   '$materialUtil',
+  '$materialConstant',
   MaterialTabDirective
 ]);
 
@@ -58,7 +59,7 @@ angular.module('material.components.tabs')
  * </hljs>
  *
  */
-function MaterialTabDirective($materialInkRipple, $compile, $materialAria, $materialUtil) {
+function MaterialTabDirective($materialInkRipple, $compile, $materialAria, $materialUtil, $materialConstant) {
   return {
     restrict: 'E',
     require: ['materialTab', '^materialTabs'],
@@ -131,16 +132,16 @@ function MaterialTabDirective($materialInkRipple, $compile, $materialAria, $mate
         });
       }
       function keydownListener(ev) {
-        if (ev.which == Constant.KEY_CODE.SPACE ) {
+        if (ev.which == $materialConstant.KEY_CODE.SPACE ) {
           // Fire the click handler to do normal selection if space is pressed
           element.triggerHandler('click');
           ev.preventDefault();
 
-        } else if (ev.which === Constant.KEY_CODE.LEFT_ARROW) {
+        } else if (ev.which === $materialConstant.KEY_CODE.LEFT_ARROW) {
           var previous = tabsCtrl.previous(tabItemCtrl);
           previous && previous.element.focus();
 
-        } else if (ev.which === Constant.KEY_CODE.RIGHT_ARROW) {
+        } else if (ev.which === $materialConstant.KEY_CODE.RIGHT_ARROW) {
           var next = tabsCtrl.next(tabItemCtrl);
           next && next.element.focus();
         }

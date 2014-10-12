@@ -11,6 +11,7 @@ angular.module('material.components.radioButton', [
 ])
   .directive('materialRadioGroup', [
     '$materialUtil',
+    '$materialConstant',
     materialRadioGroupDirective
   ])
   .directive('materialRadioButton', [
@@ -51,7 +52,7 @@ angular.module('material.components.radioButton', [
  * </hljs>
  *
  */
-function materialRadioGroupDirective($materialUtil) {
+function materialRadioGroupDirective($materialUtil, $materialConstant) {
   RadioGroupController.prototype = createRadioGroupControllerProto();
 
   return {
@@ -68,11 +69,11 @@ function materialRadioGroupDirective($materialUtil) {
       };
 
     function keydownListener(ev) {
-      if (ev.which === Constant.KEY_CODE.LEFT_ARROW || ev.which === Constant.KEY_CODE.UP_ARROW) {
+      if (ev.which === $materialConstant.KEY_CODE.LEFT_ARROW || ev.which === $materialConstant.KEY_CODE.UP_ARROW) {
         ev.preventDefault();
         rgCtrl.selectPrevious();
       }
-      else if (ev.which === Constant.KEY_CODE.RIGHT_ARROW || ev.which === Constant.KEY_CODE.DOWN_ARROW) {
+      else if (ev.which === $materialConstant.KEY_CODE.RIGHT_ARROW || ev.which === $materialConstant.KEY_CODE.DOWN_ARROW) {
         ev.preventDefault();
         rgCtrl.selectNext();
       }

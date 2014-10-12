@@ -6,6 +6,7 @@
  * A Sidenav QP component.
  */
 angular.module('material.components.sidenav', [
+  'material.core',
   'material.services.registry',
   'material.animations'
 ])
@@ -17,6 +18,7 @@ angular.module('material.components.sidenav', [
     '$timeout',
     '$materialEffects',
     '$$rAF',
+    '$materialConstant',
     materialSidenavDirective 
   ])
   .controller('$materialSidenavController', [
@@ -175,7 +177,7 @@ function materialSidenavService($materialComponentRegistry) {
  * });
  * </hljs>
  */
-function materialSidenavDirective($timeout, $materialEffects, $$rAF) {
+function materialSidenavDirective($timeout, $materialEffects, $$rAF, $materialConstant) {
   return {
     restrict: 'E',
     scope: {},
@@ -232,7 +234,7 @@ function materialSidenavDirective($timeout, $materialEffects, $$rAF) {
      * @param evt
      */
     function onKeyDown(evt) {
-      if(evt.which === Constant.KEY_CODE.ESCAPE){
+      if(evt.which === $materialConstant.KEY_CODE.ESCAPE){
         close();
 
         evt.preventDefault();

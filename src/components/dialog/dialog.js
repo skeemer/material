@@ -21,6 +21,7 @@ angular.module('material.components.dialog', [
     '$materialAria',
     '$$interimElement',
     '$materialUtil',
+    '$materialConstant',
     MaterialDialogService
   ]);
 
@@ -143,7 +144,7 @@ function MaterialDialogDirective($$rAF) {
  *
  */
 
-function MaterialDialogService($timeout, $rootElement, $materialEffects, $animate, $materialAria, $$interimElement, $materialUtil) {
+function MaterialDialogService($timeout, $rootElement, $materialEffects, $animate, $materialAria, $$interimElement, $materialUtil, $materialConstant) {
 
   var $dialogService;
   return $dialogService = $$interimElement({
@@ -182,7 +183,7 @@ function MaterialDialogService($timeout, $rootElement, $materialEffects, $animat
     .then(function() {
       if (options.escapeToClose) {
         options.rootElementKeyupCallback = function(e) {
-          if (e.keyCode === Constant.KEY_CODE.ESCAPE) {
+          if (e.keyCode === $materialConstant.KEY_CODE.ESCAPE) {
             $timeout($dialogService.cancel);
           }
         };
