@@ -73,12 +73,12 @@ exports.buildModuleBower = function(name, version) {
       var bowerDeps = {};
 
       moduleInfo.dependencies && moduleInfo.dependencies.forEach(function(dep) {
-        var convertedName = 'material-design-' + dep.split('.').slice(-1);
+        var convertedName = 'angular-material-' + dep.split('.').pop();
         bowerDeps[convertedName] = version;
       });
 
       var bowerContents = JSON.stringify({
-        name: 'material-design-' + name,
+        name: 'angular-material-' + name,
         version: version,
         dependencies: bowerDeps
       });

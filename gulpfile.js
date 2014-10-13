@@ -97,6 +97,7 @@ var config = {
     ' * v' + pkg.version + '\n' + 
     ' */\n',
   jsBaseFiles: ['src/core/core.js', 'src/core/util/*.js'],
+  themeBaseFiles: 'src/core/style/{variables,mixins}.scss',
   scssBaseFiles: 'src/core/style/{variables,mixins,structure,layout,table}.scss',
   paths: 'src/{components,services}/**',
   outputDir: 'dist/'
@@ -113,7 +114,7 @@ gulp.task('build', ['build-theme', 'build-scss', 'build-js'], function() {
 });
 
 gulp.task('generate-default-theme', function() {
-  return gulp.src([config.scssBaseFiles, path.join(config.paths, '*-theme.scss')])
+  return gulp.src([config.themeBaseFiles, path.join(config.paths, '*-theme.scss')])
     .pipe(concat('default-theme.scss'))
     .pipe(utils.hoistScssVariables())
     .pipe(gulp.dest('themes/'));
@@ -121,6 +122,7 @@ gulp.task('generate-default-theme', function() {
 
 gulp.task('build-theme', ['generate-default-theme'], function() {
   var theme = argv.theme || argv.t || 'default';
+  theme = theme.replace(/-theme$/, '');
   gutil.log("Building theme " + theme + "...");
   return gulp.src(['themes/default-theme.scss', 'themes/' + theme + '-theme.scss'])
     .pipe(concat(theme + '-theme.scss'))
@@ -176,22 +178,25 @@ gulp.task('build-module', function() {
 
 
 function buildModuleStyles(name) {
-  var baseStyles = fs.readFileSync(config.scssBasePath, 'utf8');
+  var baseStyles = glob(config.themeBaseFiles, { cwd: __dirname }).map(function(fileName) {
+    return fs.readFileSync(fileName, 'utf8').toString();
+  }).join('\n');
   return lazypipe()
-  .pipe(insert.prepend.bind(null, baseStyles))
-  .pipe(gulpif.bind(undefined, /theme.scss/, 
+  .pipe(insert.prepend, baseStyles)
+  .pipe(gulpif, /theme.scss/, 
       rename(name + '-default-theme.scss'), concat(name + '-core.scss')
-  )).pipe(sass)
+  )
+  .pipe(sass)
   .pipe(autoprefix)
-  .pipe(gulpif.bind(undefined, IS_RELEASE_BUILD, minifyCss()))
+  .pipe(gulpif, IS_RELEASE_BUILD, minifyCss())
   (); // invoke the returning fn to create our pipe
 }
 
 function buildModuleJs(name) {
   return lazypipe()
-  .pipe(insert.wrap.bind(undefined, '(function() {', '})()'))
-  .pipe(concat.bind(undefined, name + '.js'))
-  .pipe(gulpif.bind(undefined, IS_RELEASE_BUILD, uglify({preserveComments: 'some'})))
+  .pipe(insert.wrap, '(function() {', '})()')
+  .pipe(concat, name + '.js')
+  .pipe(gulpif, IS_RELEASE_BUILD, uglify({preserveComments: 'some'}))
   ();
 }
 
