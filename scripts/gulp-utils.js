@@ -100,7 +100,7 @@ exports.hoistScssVariables = function() {
 
     for( var currentLine = 0; currentLine < contents.length; ++currentLine) {
       var line = contents[currentLine];
-      if (/^\$/.test(line)) {
+      if (/^\s*\$/.test(line)) {
         if (currentLine != lastVariableLine + 1) {
           var variable = contents.splice(currentLine, 1)[0];
           contents.splice(++lastVariableLine, 0, variable);
