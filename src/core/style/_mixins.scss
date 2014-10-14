@@ -51,14 +51,6 @@
   transition-property: transform;
 }
 
-@mixin easeInOut($duration, $curve) {
-  -webkit-transition: all $duration $curve;
-  transition: all $duration $curve;
-
-  -webkit-transition-timing-function: all $duration $curve;
-  transition-timing-function: all $duration $curve;
-}
-
 @mixin transition-delay($val) {
   -webkit-transition-delay: $val;
   transition-delay: $val;

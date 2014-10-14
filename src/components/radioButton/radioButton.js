@@ -21,7 +21,6 @@ angular.module('material.components.radioButton', [
  * @module material.components.radioButton
  * @name materialRadioGroup
  *
- * @order 0
  * @restrict E
  *
  * @description
@@ -155,7 +154,6 @@ function materialRadioGroupDirective() {
  * @module material.components.radioButton
  * @name materialRadioButton
  *
- * @order 1
  * @restrict E
  *
  * @description

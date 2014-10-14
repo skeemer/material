@@ -1,4 +1,4 @@
-/**
+/*
  * @ngdoc module
  * @name material.services.interimElement
  * @description InterimElement
@@ -17,7 +17,7 @@ angular.module('material.services.interimElement', [
   InterimElementFactory
 ]);
 
-/**
+/*
  * @ngdoc service
  * @name $$interimElement
  *
@@ -44,7 +44,7 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
 
   return function createInterimElementService(defaults) {
 
-    /**
+    /*
      * @ngdoc service
      * @name $$interimElement.$service
      *
@@ -76,7 +76,7 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
       cancel: cancel
     };
 
-    /**
+    /*
      * @ngdoc method
      * @name $$interimElement.$service#show
      * @kind function
@@ -102,7 +102,7 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
       });
     }
 
-    /**
+    /*
      * @ngdoc method
      * @name $$interimElement.$service#hide
      * @kind function
@@ -122,7 +122,7 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
       });
     }
 
-    /**
+    /*
      * @ngdoc method
      * @name $$interimElement.$service#cancel
      * @kind function
@@ -157,7 +157,7 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
         scope: options.scope || $rootScope.$new(options.isolateScope)
       }, defaults, options);
 
-      self = {
+      return self = {
         options: options,
         deferred: $q.defer(),
         show: function() {
@@ -188,7 +188,6 @@ function InterimElementFactory($q, $rootScope, $timeout, $rootElement, $animate,
           });
         }
       };
-      return self;
     }
   };
 }

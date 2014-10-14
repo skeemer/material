@@ -7,15 +7,13 @@
    */
   angular.module('material.components.swipe',['ng'])
 
-    /**
-     * @ngdoc directive
+    /*
+     * @ngdoc service
      * @module material.components.swipe
      * @name $materialSwipe
-     *
-     *  This service allows directives to easily attach swipe and pan listeners to
-     *  the specified element.
-     *
-     * @private
+     * @description
+     * This service allows directives to easily attach swipe and pan listeners to
+     * the specified element.
      */
     .factory("$materialSwipe", function() {
 
@@ -108,7 +106,6 @@
      * @module material.components.swipe
      * @name materialSwipeLeft
      *
-     * @order 0
      * @restrict A
      *
      * @description
@@ -143,7 +140,6 @@
      * @module material.components.swipe
      * @name materialSwipeRight
      *
-     * @order 1
      * @restrict A
      *
      * @description

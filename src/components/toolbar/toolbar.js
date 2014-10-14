@@ -15,6 +15,7 @@ angular.module('material.components.toolbar', [
 /**
  * @ngdoc directive
  * @name materialToolbar
+ * @module material.components.toolbar
  * @restrict E
  * @description
  * `material-toolbar` is used to place a toolbar in your app.

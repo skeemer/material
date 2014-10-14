@@ -29,7 +29,7 @@ angular.module('material.components.sidenav', [
     materialSidenavController 
   ]);
   
-/**
+/*
  * @private
  * @ngdoc object
  * @name materialSidenavController
@@ -70,7 +70,7 @@ function materialSidenavController($scope, $element, $attrs, $timeout, $material
   };
 }
 
-/**
+/*
  * @private
  * @ngdoc service
  * @name $materialSidenav

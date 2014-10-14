@@ -4,7 +4,6 @@ angular.module('material.components.tabs')
  * @ngdoc directive
  * @name materialTabs
  * @module material.components.tabs
- * @order 0
  *
  * @restrict E
  *

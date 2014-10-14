@@ -1,5 +1,5 @@
-/**
- * @ngdoc overview
+/*
+ * @ngdoc module
  * @name material.services.registry
  *
  * @description
@@ -12,9 +12,10 @@ angular.module('material.services.registry', [
     materialComponentRegistry 
   ]);
 
-/**
+/*
  * @ngdoc service
- * @name material.services.registry.service:$materialComponentRegistry
+ * @name $materialComponentRegistry
+ * @module material.services.registry
  *
  * @description
  * $materialComponentRegistry enables the user to interact with multiple instances of

@@ -31,21 +31,11 @@ function MaterialBottomSheetDirective() {
  * @module material.components.bottomSheet
  *
  * @description
-
- * Used to open a bottom sheet on the screen, `$materialBottomSheet` is a service
- * created by `$$interimElement` and provides a simple promise-based, behavior API:
+ * `$materialBottomSheet` opens a bottom sheet over the app and provides a simple promise API.
  *
- *  - `$materialBottomSheet.show()`
- *  - `$materialBottomSheet.hide()`
- *  - `$materialBottomSheet.cancel()`
- *
- * #### Notes:
- *
- * Only one bottom sheet may ever be active at any time. If a new sheet is
- * shown while a different one is active, the previous sheet will be automatically
- * hidden.
-
- * The bottom sheet's template must have an outer `<material-bottom-sheet>` element.
+ * ### Restrictions
+ * 
+ * - The bottom sheet's template must have an outer `<material-bottom-sheet>` element.
  *
  * @usage
  * <hljs lang="html">
@@ -74,26 +64,27 @@ function MaterialBottomSheetDirective() {
  * @description
  * Show a bottom sheet with the specified options.
  *
- * @paramType Options
- * @param {string=} templateUrl The url of an html template file that will
- * be used as the content of the bottom sheet. Restrictions: the template must
- * have an outer `material-bottom-sheet` element.
- * @param {string=} template Same as templateUrl, except this is an actual
- * template string.
- * @param {string=} controller The controller to associate with this bottom sheet.
- * @param {string=} locals An object containing key/value pairs. The keys will
- * be used as names of values to inject into the controller. For example, 
- * `locals: {three: 3}` would inject `three` into the controller with the value
- * of 3.
- * @param {DOMClickEvent=} targetEvent A click's event object. When passed in as an option, 
- * the location of the click will be used as the starting point for the opening animation
- * of the the dialog.
- * @param {object=} resolve Similar to locals, except it takes promises as values
- * and the bottom sheet will not open until the promises resolve.
- * @param {string=} controllerAs An alias to assign the controller to on the scope.
+ * @param {object} options An options object, with the following properties:
  *
- * @returns {Promise} Returns a promise that will be resolved or rejected when
- *  `$materialBottomSheet.hide()` or `$materialBottomSheet.cancel()` is called respectively.
+ *   - `templateUrl` - `{string=}`: The url of an html template file that will
+ *   be used as the content of the bottom sheet. Restrictions: the template must
+ *   have an outer `material-bottom-sheet` element.
+ *   - `template` - `{string=}`: Same as templateUrl, except this is an actual
+ *   template string.
+ *   - `controller` - `{string=}`: The controller to associate with this bottom sheet.
+ *   - `locals` - `{string=}`: An object containing key/value pairs. The keys will
+ *   be used as names of values to inject into the controller. For example, 
+ *   `locals: {three: 3}` would inject `three` into the controller with the value
+ *   of 3.
+ *   - `targetEvent` - `{DOMClickEvent=}`: A click's event object. When passed in as an option, 
+ *   the location of the click will be used as the starting point for the opening animation
+ *   of the the dialog.
+ *   - `resolve` - `{object=}`: Similar to locals, except it takes promises as values
+ *   and the bottom sheet will not open until the promises resolve.
+ *   - `controllerAs` - `{string=}`: An alias to assign the controller to on the scope.
+ *
+ * @returns {promise} A promise that can be resolved with `$materialBottomSheet.hide()` or
+ * rejected with `$materialBottomSheet.cancel()`.
  */
 
 /**
@@ -101,10 +92,10 @@ function MaterialBottomSheetDirective() {
  * @name $materialBottomSheet#hide
  *
  * @description
- * Hide the existing bottom sheet and `resolve` the promise returned from 
+ * Hide the existing bottom sheet and resolve the promise returned from 
  * `$materialBottomSheet.show()`.
  *
- * @param {*} arg An argument to resolve the promise with.
+ * @param {*=} response An argument for the resolved promise.
  *
  */
 
@@ -113,23 +104,22 @@ function MaterialBottomSheetDirective() {
  * @name $materialBottomSheet#cancel
  *
  * @description
- * Hide the existing bottom sheet and `reject` the promise returned from 
+ * Hide the existing bottom sheet and reject the promise returned from 
  * `$materialBottomSheet.show()`.
  *
- * @param {*} arg An argument to reject the promise with.
+ * @param {*=} response An argument for the rejected promise.
  *
  */
 
 function MaterialBottomSheet($$interimElement, $animate, $materialEffects, $timeout, $$rAF) {
   var backdrop;
 
-  var $materialBottomSheet = $$interimElement({
+  var $materialBottomSheet;
+  return $materialBottomSheet = $$interimElement({
     targetEvent: null,
     onShow: onShow,
     onRemove: onRemove,
   });
-
-  return $materialBottomSheet;
 
   function onShow(scope, element, options) {
     // Add a backdrop that will close on click

@@ -1,4 +1,4 @@
-/**
+/*
  * @ngdoc module
  * @name material.components.sticky
  * @description
@@ -19,8 +19,8 @@ angular.module('material.components.sticky', [
   MaterialSticky
 ]);
 
-/**
- * @ngdoc factory
+/*
+ * @ngdoc service
  * @name $materialSticky
  * @module material.components.sticky
  *
@@ -30,7 +30,7 @@ angular.module('material.components.sticky', [
  * @returns A `$materialSticky` function that takes three arguments:
  *   - `scope`
  *   - `element`: The element that will be 'sticky'
- *   - `{optional}` `clone`: A clone of the element, that will be shown
+ *   - `elementClone`: A clone of the element, that will be shown
  *     when the user starts scrolling past the original element.
  *     If not provided, it will use the result of `element.clone()`.
  */

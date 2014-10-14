@@ -11,7 +11,6 @@ angular.module('material.components.tabs')
  * @ngdoc directive
  * @name materialTab
  * @module material.components.tabs
- * @order 1
  *
  * @restrict E
  *
